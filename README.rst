@@ -19,6 +19,14 @@ Instead of:
 - inline for Book 1
 - inline for Book 2
 
+
+Installation
+-------------
+
+Install using pip:
+
+    pip install django-merged-inlines
+
 Quick start
 -----------
 
