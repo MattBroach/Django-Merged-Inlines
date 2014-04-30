@@ -1,0 +1,92 @@
+{% extends "admin/change_form.html" %}
+
+{% block inline_field_sets %}
+
+{% load i18n admin_static admin_modify %}{% load cycle from future %}
+{% load merged_inline_extras %}
+<div class="inline-group" id="all-inlines-group">
+  <div class="tabular inline-related last-related">
+{% for inline_admin_formset in inline_admin_formsets %}{{ inline_admin_formset.formset.management_form }}{% endfor %}
+<fieldset class="module">
+   <h2>{% for inline_admin_formset in inline_admin_formsets %}{{ inline_admin_formset.opts.verbose_name_plural|capfirst }}{% if not forloop.last %} and {% endif %}{% endfor %}</h2>
+   <!--{{ inline_admin_formset.formset.non_form_errors }}-->
+   <table>
+     <thead><tr>
+         <th colspan=2>Type</th>
+     {% for name, label in all_fields %}
+         <th>{{ label }}
+         </th>
+     {% endfor %}
+     <th>Delete?</th>
+     </tr></thead>
+
+     <tbody>
+     {% for inline_form, field_dict in all_forms %}
+        {% if inline_form.form.non_field_errors %}
+        <tr><td colspan="{{all_fields|length|add:"1"}}">{{ inline_form.form.non_field_errors }}</td></tr>
+        {% endif %}
+        <tr class="form-row {% cycle "row1" "row2" %} {% if inline_form.original or inline_form.show_url %}has_original{% endif %}{% if inline_form.form.prefix|is_empty %} empty-form{% endif %}"
+             id="{% if inline_form.form.prefix|is_empty %}{{ inline_form.formset.prefix }}-empty{% else %}{{inline_form.form.prefix}}{% endif %}">
+        <td class="original">
+          {% if inline_form.original or form.show_url %}<p>
+          {% if inline_form.original %} {{ inline_form.original }}{% endif %}
+          {% if inline_form.show_url %}<a href="{% url 'admin:view_on_site' inline_form.original_content_type_id inline_form.original.pk %}">{% trans "View on site" %}</a>{% endif %}
+            </p>{% endif %}
+          {% if inline_form.needs_explicit_pk_field %}{{ inline_form.pk_field.field }}{% endif %}
+          {{ inline_form.fk_field.field }}
+          {% spaceless %}
+          {% for fieldset in inline_form %}
+            {% for line in fieldset %}
+              {% for field in line %}
+                {% if field.is_hidden %} {{ field.field }} {% endif %}
+              {% endfor %}
+            {% endfor %}
+          {% endfor %}
+          {% endspaceless %}
+        </td>
+        <td>{{inline_form.verbose_name}}</td>
+        {% for name, label in all_fields %}
+            {% if name in inline_form.fieldsets.0.1.fields %}
+              {% with field=field_dict|get_item:name %}
+                <td{% if field.field.name %} class="field-{{ field.field.name }}"{% endif %}>
+                {% if field.is_readonly %}
+                  <p>{{ field.contents|linebreaksbr }}</p>
+                {% else %}
+                  {{ field.field.errors.as_ul }}
+                  {{ field.field }}
+                {% endif %}
+              {% endwith %}
+              </td>
+            {% else %}
+              <td> </td>
+            {% endif %}
+        {% endfor %}
+        {% if inline_form.formset.can_delete %}
+          <td class="delete">{% if inline_form.original %}{{ inline_form.deletion_field.field }}{% endif %}</td>
+        {% else %}
+          <td> </td>
+        {% endif %}
+        </tr>
+     {% endfor %}
+     </tbody>
+   </table>
+</fieldset>
+  </div>
+</div>
+
+<script type="text/javascript">
+{% for inline_admin_formset in inline_admin_formsets %}
+    (function($) {
+      $("#all-inlines-group .tabular.inline-related tbody tr").tabularFormset({
+        prefix: "{{ inline_admin_formset.formset.prefix }}",
+        adminStaticPrefix: '{% static "admin/" %}',
+        addText: "{% blocktrans with inline_admin_formset.opts.verbose_name|title as verbose_name %}Add another {{ verbose_name }}{% endblocktrans %}",
+        deleteText: "{% trans 'Remove' %}"
+      });
+    })(django.jQuery);
+
+{% endfor %}
+</script>
+
+
+{% endblock %}
