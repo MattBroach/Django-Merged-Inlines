@@ -2,6 +2,11 @@ from django.contrib import admin
 from django.contrib.admin import helpers
 from django.contrib.admin.util import unquote
 from django.forms.formsets import all_valid
+from collections import namedtuple
+
+class FieldObj(namedtuple('FieldObj', 'name label is_hidden help_text field')):
+    def __new__(cls, name=None, label=None, is_hidden=None, help_text=None, field=None):
+        return super(FieldObj, cls).__new__(cls, name, label, is_hidden, help_text, field)
 
 class MergedInlineAdmin(admin.ModelAdmin):
     #optional field ordering variable
@@ -24,6 +29,10 @@ class MergedInlineAdmin(admin.ModelAdmin):
                 for fieldset in form:
                     for line in fieldset:
                         for field in line:
+                            if isinstance(field.field, dict):
+                                if 'name' not in field.field:
+                                    field.field['name'] = field.field['label']
+                                field.field = FieldObj(**field.field)
                             if (field.field.name,field.field.label) not in all_fields and not field.field.is_hidden:
                                 all_fields.append((field.field.name,field.field.label))
                             all_forms[i][1][field.field.name] = field
