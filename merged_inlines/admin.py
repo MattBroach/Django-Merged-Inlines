@@ -209,3 +209,6 @@ class MergedInlineAdmin(admin.ModelAdmin):
         extra_context = self.collect_forms(inline_admin_formsets,extra_context)
 
         return super(MergedInlineAdmin, self).change_view(request, object_id,form_url,extra_context = extra_context)
+
+    class Media:
+        js = ('admin/js/merged_inlines.js',)
