@@ -36,19 +36,8 @@
                 // If forms are laid out as table rows, insert the
                 // "add" button in a new table row:
                 var numCols = this.eq(-1).children().length;
-
-
-
-                // :::BEGIN CHANGES:::
-                $parent.append('<tr class="' + options.addCssClass + '"><td colspan="100"><a href="javascript:void(0)">' + options.addText + "</a></tr>");
-
-//                $parent.append('<tr class="' + options.addCssClass + '"><td colspan="' + numCols + '"><a href="javascript:void(0)">' + options.addText + "</a></tr>");
-
-
-                // :::END CHANGES:::
-
-
-                addButton = $parent.find("tr:last a");
+                $parent.prepend('<tr class="' + options.addCssClass + '"><td colspan="100"><a href="javascript:void(0)">' + options.addText + "</a></tr>");
+                addButton = $parent.find("tr:first a");
             } else {
                 // Otherwise, insert it immediately after the last form:
                 $this.filter(":last").after('<div class="' + options.addCssClass + '"><a href="javascript:void(0)">' + options.addText + "</a></div>");
@@ -129,6 +118,9 @@
                 if (options.added) {
                     options.added(row);
                 }
+                $('tr:not(.empty-form, .add-row)', $(this).closest('tbody')).each(function(i, elem) {
+                    $(elem).find('.field-' + opts.sortField + ' > input').val(i);
+                });
             });
         }
         return this;
@@ -137,9 +129,9 @@
   $.fn.mergedTabularFormset = function(options) {
     var $rows = $(this);
     var alternatingRows = function(row) {
-      $($rows.selector).not(".add-row").removeClass("row1 row2")
-        .filter(":even").addClass("row1").end()
-        .filter(":odd").addClass("row2");
+      $($rows.selector).not(".add-row, .empty-form").removeClass("row1 row2")
+        .filter(":odd").addClass("row2").end()
+        .filter(":even").addClass("row1");
     };
 
     var reinitDateTimeShortCuts = function() {
@@ -188,6 +180,7 @@
       deleteText: options.deleteText,
       emptyCssClass: "empty-form",
       removed: alternatingRows,
+      sortField: 'index',
       added: function(row) {
         initPrepopulatedFields(row);
         reinitDateTimeShortCuts();
