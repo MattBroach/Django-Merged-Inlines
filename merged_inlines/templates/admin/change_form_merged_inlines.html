@@ -77,7 +77,7 @@
 <script type="text/javascript">
 {% for inline_admin_formset in inline_admin_formsets %}
     (function($) {
-      $("#all-inlines-group .tabular.inline-related tbody tr").tabularFormset({
+      $("#all-inlines-group .tabular.inline-related tbody tr").mergedTabularFormset({
         prefix: "{{ inline_admin_formset.formset.prefix }}",
         adminStaticPrefix: '{% static "admin/" %}',
         addText: "{% blocktrans with inline_admin_formset.opts.verbose_name|title as verbose_name %}Add another {{ verbose_name }}{% endblocktrans %}",
