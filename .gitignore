@@ -12,3 +12,9 @@ Thumbs.db
 ##################
 
 *.pyc
+
+# build files #
+##################
+build/
+dist/
+django_merged_inlines.egg-info/
