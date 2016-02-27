@@ -18,3 +18,17 @@ Thumbs.db
 build/
 dist/
 django_merged_inlines.egg-info/
+
+# Environment Files #
+#####################
+Vagrantfile
+.vagrant/
+setup.sh
+merged_inlines.sublime-project
+merged_inlines.sublime-workspace
+manage.py
+test_settings/
+
+# Database #
+############
+db.sqlite3
