@@ -25,7 +25,6 @@ Vagrantfile
 setup.sh
 merged_inlines.sublime-project
 merged_inlines.sublime-workspace
-manage.py
 
 # Database #
 ############
