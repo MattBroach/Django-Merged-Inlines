@@ -10,7 +10,6 @@ Thumbs.db
 
 # compiled files #
 ##################
-
 *.pyc
 
 # build files #
@@ -27,8 +26,16 @@ setup.sh
 merged_inlines.sublime-project
 merged_inlines.sublime-workspace
 manage.py
-test_settings/
 
 # Database #
 ############
 db.sqlite3
+
+# Editor Files #
+################
+*.swp
+
+# Testing #
+###########
+.coverage/
+.coverage
