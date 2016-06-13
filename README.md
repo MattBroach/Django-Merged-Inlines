@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/MattBroach/Django-Merged-Inlines.svg?branch=master)](https://travis-ci.org/MattBroach/Django-Merged-Inlines)
 [![Coverage Status](https://coveralls.io/repos/github/MattBroach/Django-Merged-Inlines/badge.svg?branch=master)](https://coveralls.io/github/MattBroach/Django-Merged-Inlines?branch=master)
-[![PyPI version](https://badge.fury.io/py/django-rest-multiple-models.svg)](https://badge.fury.io/py/django-merged-inlines)
+[![PyPI version](https://badge.fury.io/py/django-merged-inlines.svg)](https://badge.fury.io/py/django-merged-inlines)
 
 # Merged Inlines
 
