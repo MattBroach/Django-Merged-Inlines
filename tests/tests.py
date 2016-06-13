@@ -64,7 +64,7 @@ class TestMergedInlines(TestCase):
             kingdom=cls.westeros, name="Bronn", house="Lannister?", id=2)
 
     def setUp(self):
-        self.client.force_login(self.superuser)
+        self.client.login(username='super', password='secret')
 
     def assertStringOrder(self, response, check_list):
         """
