@@ -19,51 +19,49 @@ urlpatterns = [
 # Tests 
 @override_settings(ROOT_URLCONF=__name__)
 class TestMergedInlines(TestCase):
-    @classmethod
-    def setUpTestData(cls):
-        cls.superuser = User.objects.create_superuser(
+    def setUp(self):
+        superuser = User.objects.create_superuser(
             username='super', 
             password='secret', 
             email='super@example.com'
         )
 
         # Basic Test data
-        cls.author = Author.objects.create(name="William Shakespeare")
+        author = Author.objects.create(name="William Shakespeare")
 
-        cls.play1 = Play.objects.create(
+        play1 = Play.objects.create(
             title='Romeo and Juliet', genre='Tragedy',
-            year=1597, author=cls.author, id=1)
-        cls.play2 = Play.objects.create(
+            year=1597, author=author, id=1)
+        play2 = Play.objects.create(
             title="A Midsummer Night's Dream", genre='Comedy',
-            year=1600, author=cls.author, id=3)
-        cls.play3 = Play.objects.create(
+            year=1600, author=author, id=3)
+        play3 = Play.objects.create(
             title='Julius Caesar', genre='Tragedy',
-            year=1623, author=cls.author, id=5)
+            year=1623, author=author, id=5)
         
 
-        cls.poem1 = Poem.objects.create(
+        poem1 = Poem.objects.create(
             title="Shall I compare thee to a summer's day?",
-            style="Sonnet", author=cls.author, id=2)
-        cls.poem2 = Poem.objects.create(
+            style="Sonnet", author=author, id=2)
+        poem2 = Poem.objects.create(
             title="As a decrepit father takes delight",
-            style="Sonnet", author=cls.author, id=4)
+            style="Sonnet", author=author, id=4)
 
         # Custom order field 
-        cls.westeros = Kingdom.objects.create(name="Westeros")
+        westeros = Kingdom.objects.create(name="Westeros")
 
-        cls.king1 = King.objects.create(
-            kingdom=cls.westeros, name="Tommen Baratheon", alive=True, id=1)
-        cls.king2 = King.objects.create(
-            kingdom=cls.westeros, name="Joffrey Baratheon", alive=False, id=2)
-        cls.king3 = King.objects.create(
-            kingdom=cls.westeros, name="Rob Stark", alive=False, id=3)
+        king1 = King.objects.create(
+            kingdom=westeros, name="Tommen Baratheon", alive=True, id=1)
+        king2 = King.objects.create(
+            kingdom=westeros, name="Joffrey Baratheon", alive=False, id=2)
+        king3 = King.objects.create(
+            kingdom=westeros, name="Rob Stark", alive=False, id=3)
 
-        cls.soldier1 = Soldier.objects.create(
-            kingdom=cls.westeros, name="The Hound", house="Brotherhood Without Banners", id=1)
-        cls.soldier1 = Soldier.objects.create(
-            kingdom=cls.westeros, name="Bronn", house="Lannister?", id=2)
+        soldier1 = Soldier.objects.create(
+            kingdom=westeros, name="The Hound", house="Brotherhood Without Banners", id=1)
+        soldier1 = Soldier.objects.create(
+            kingdom=westeros, name="Bronn", house="Lannister?", id=2)
 
-    def setUp(self):
         self.client.login(username='super', password='secret')
 
     def assertStringOrder(self, response, check_list):
@@ -80,7 +78,7 @@ class TestMergedInlines(TestCase):
         merged inlines by ID
         """
 
-        response = self.client.get('/admin/tests/author/1/change/') 
+        response = self.client.get(reverse('admin:tests_author_change', args=(1,)))
 
         self.assertEqual(response.status_code, 200)
         self.assertStringOrder(response, [
@@ -96,7 +94,7 @@ class TestMergedInlines(TestCase):
         Specifying a particular merging field
         """
 
-        response = self.client.get('/admin/tests/kingdom/1/change/')
+        response = self.client.get(reverse('admin:tests_kingdom_change', args=(1,)))
 
         self.assertEqual(response.status_code, 200)
         self.assertStringOrder(response, [
@@ -111,7 +109,7 @@ class TestMergedInlines(TestCase):
         """
         Check that a custom form field ordering is in effect
         """
-        response = self.client.get('/admin/tests/kingdom/1/change/')
+        response = self.client.get(reverse('admin:tests_kingdom_change', args=(1,)))
 
         self.assertEqual(response.status_code, 200)
         self.assertStringOrder(response, [
