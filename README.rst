@@ -122,5 +122,5 @@ Version History
    :target: https://travis-ci.org/MattBroach/Django-Merged-Inlines
 .. |Coverage Status| image:: https://coveralls.io/repos/github/MattBroach/Django-Merged-Inlines/badge.svg?branch=master
    :target: https://coveralls.io/github/MattBroach/Django-Merged-Inlines?branch=master
-.. |PyPI version| image:: https://badge.fury.io/py/django-rest-multiple-models.svg
+.. |PyPI version| image:: https://badge.fury.io/py/django-merged-inlines.svg
    :target: https://badge.fury.io/py/django-merged-inlines

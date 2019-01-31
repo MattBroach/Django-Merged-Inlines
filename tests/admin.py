@@ -4,6 +4,7 @@ from merged_inlines.admin import MergedInlineAdmin
 
 from .models import Author, Play, Poem, Kingdom, King, Soldier
 
+
 # Admin classes
 class PlayInline(admin.TabularInline):
     model = Play

@@ -19,14 +19,14 @@ class Author(MergedInlineModel):
 
 
 class Play(MergedInlineModel):
-    author = models.ForeignKey(Author)
+    author = models.ForeignKey(Author, on_delete=models.CASCADE)
     genre = models.CharField(max_length=100)
     title = models.CharField(max_length=200)
     year = models.IntegerField()
 
 
 class Poem(MergedInlineModel):
-    author = models.ForeignKey(Author)
+    author = models.ForeignKey(Author, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     style = models.CharField(max_length=100)
 
@@ -37,14 +37,12 @@ class Kingdom(MergedInlineModel):
 
 
 class King(MergedInlineModel):
-    kingdom = models.ForeignKey(Kingdom)
+    kingdom = models.ForeignKey(Kingdom, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     alive = models.BooleanField(default=False)
 
 
 class Soldier(MergedInlineModel):
-    kingdom = models.ForeignKey(Kingdom)
+    kingdom = models.ForeignKey(Kingdom, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     house = models.CharField(max_length=150)
-
-
