@@ -20,6 +20,12 @@ urlpatterns = [
 @override_settings(ROOT_URLCONF=__name__)
 class TestMergedInlines(TestCase):
     def setUp(self):
+        User.objects.create_superuser(
+            username='super',
+            password='secret',
+            email='super@example.com'
+        )
+
         # Basic Test data
         author = Author.objects.create(name="William Shakespeare")
 
@@ -70,7 +76,6 @@ class TestMergedInlines(TestCase):
         With no special settings, the MergedInlineAdmin should order the
         merged inlines by ID
         """
-
         response = self.client.get(reverse('admin:tests_author_change', args=(1,)))
 
         self.assertEqual(response.status_code, 200)
@@ -86,7 +91,6 @@ class TestMergedInlines(TestCase):
         """
         Specifying a particular merging field
         """
-
         response = self.client.get(reverse('admin:tests_kingdom_change', args=(1,)))
 
         self.assertEqual(response.status_code, 200)
