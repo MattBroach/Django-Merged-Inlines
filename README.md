@@ -94,6 +94,7 @@ class AuthorAdmin(MergedInlineAdmin):
 
 Version History
 
+* 1.0.2 - Updated tests for Django 1.11 - 2.1 compatibility; added tox and flake8 for better testing/linting
 * 1.0 - Added full test coverage.  Moved to Django 1.7+ compatibility, dropped compatibility with Django <1.7. 
 * 0.2 - Fixed ID ordering and js issues, thanks to @kotyy
 * 0.1 - Initial release
